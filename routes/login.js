@@ -1,12 +1,12 @@
 module.exports = function ( app ) {
-    app.get('/login',function(req,res){
+    app.get('/sign in',function(req,res){
         res.render('index');
     });
 
-    app.post('/login', function (req, res) {
-        var User = global.dbHelper.getModel('user'),
+    app.post('/sign in', function (req, res) {
+        var User = global.dbHelper.getModel('user')
             uname = req.body.uname;
-        User.findOne({name: uname}, function (error, doc) {
+        User.findOne({name: uname}, "username, password", function (error, doc) {
             if (error) {
                 res.send(500);
                 console.log(error);

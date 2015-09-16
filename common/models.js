@@ -2,13 +2,16 @@
 module.exports = {
     user: {
         name: { type: String, required: true },
-        password: { type: String, required: true }
+        password: { type: String, required: true },
+        state: { type: Boolean, required: true }
     },
+
     commodity: {
         name: String,
         price: Number,
         imgSrc: String
     },
+
     cart:{
         uId: { type: String },
         cId: { type: String },
