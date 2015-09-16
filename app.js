@@ -7,7 +7,9 @@ var bodyParser = require('body-parser');
 var multer = require('multer');
 var session = require('express-session');
 
-global.dbHelper = require( './common/dbHelper' );
+global.async = require('async');
+
+global.dbHelper = require( './common/dbHelper');
 
 global.db = mongoose.connect("mongodb://127.0.0.1:27017/test1");
 
