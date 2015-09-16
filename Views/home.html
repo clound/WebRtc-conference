@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>会议</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>在线会议</title>
+    <link rel="stylesheet" href="/function/css/canvas.css"/>
+    <link rel="stylesheet" href="/function/css/style.css"/>
+    <link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap.min.css"/>
+    <script type="text/javascript" src="/components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript"  src="/components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/function/js/init.js"></script>
+    <script type="text/javascript" src="/function/js/draw.js"></script>
+    <script type="text/javascript" src="/function/js/storage.js"></script>
+
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="col-md-6" style="border: 1px solid;height: 70px;">
+                    <form class="form-inline">
+                        <div class="input-group">
+                            <span class="input-group-addon">房间号:</span>
+                            <input type="text" class="form-control" id="session-id" placeholder="room-id">
+                        </div>
+                        <button type="button" id="open" class="btn btn-primary" style="margin-left: 25%;">创建</button>
+                        <button type="button" id="join" class="btn btn-info" >加入</button>
+                    </form>
+                </div>
+                <div class="col-md-6" style="border: 1px solid;height: 70px;">
+                    <label for="sharefile">公示区:</label>
+                    <button type="button" id="share-file" disabled class="btn btn-primary" style="margin-left: 25%;">分享文件</button>
+                </div>
+                <div class="col-md-6" style="border: 1px solid;height: 300px;">
+                    <table class="table table-striped">
+                        <caption>好友管理</caption>
+                        <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>姓名</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Bangalore</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-6" style="border: 1px solid;height: 300px;">
+                    <label for="sharefile1">文件共享:</label>
+                    <div id="container"></div>
+                </div>
+                <div class="col-md-12" style="border: 1px solid;height: 330px;">
+                    <label for="Viedo">视频区:</label>
+                    <div class="video"></div>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <div class="col-md-8" style="border: 1px solid;height: 700px;">
+
+                    <img id="preview-image"  style="position: absolute; top:0; left: 15px;z-index:91;">
+                    <div id="elementToShare" contenteditable style="height: 650px;width: 490px;">
+                        <div style="margin-left: 25%;">
+                            <button class="btn btn-default" id="prev">Previous</button>
+                            <button class="btn btn-default" id="next">Next</button>
+                            &nbsp; &nbsp;
+                            <span>Page: <span id="page_num"></span> / <span id="page_count"></span></span>
+                        </div>
+                        <div id="drawController" style="">
+                            <img src = '/resource/image/pencil.png' width = '20px;' height = '20px;' class="img" onclick="draw_graph('pencil',this)" class = 'border_nochoose' title = "pencil"/><br/>
+                            <img src = '/resource/image/line.png' width = '20px;' height = '20px;' class="img" onclick="draw_graph('line',this);" class = 'border_nochoose' title = "line"/><br/>
+                            <img src = '/resource/image/cancel.png' width = '20px;' height = '20px;' class="img" onclick="cancel(this)" class = 'border_nochoose' title = "cancel"/><br/>
+                            <img src = '/resource/image/next.png' width = '20px;' height = '20px;' class="img" onclick="next(this)" class = 'border_nochoose' title = "next"/><br/>
+                            <input id="/resource/image/chooseColor"  type="button"  class = 'i1 border_nochoose' onclick="showColor(this)" title = "chooseColor"/><br/>
+                            <img src = '/resource/image/square.png' width = '20px;' height = '20px;' class="img" onclick="draw_graph('square',this)" class = 'border_nochoose' title = "square"/><br/>
+                            <img src = '/resource/image/circle.png' width = '20px;' height = '20px;' class="img" onclick="draw_graph('circle',this)" class = 'border_nochoose' title = "circle"/><br/>
+                            <img src = '/resource/image/handwriting.png' width = '20px;' height = '20px;' class="img" onclick="draw_graph('handwriting',this)" class = 'border_nochoose' title = handwriting/><br/>
+                            <img src = '/resource/image/rubber.png' width = '20px;' height = '20px;' class="img" onclick="draw_graph('rubber',this)" class = 'border_nochoose' title = "rubber"/><br/>
+                            <img  id="chooseSize" src = '/resource/image/line_size_1.png'  width = '20px;' height = '20px;' class="img" onclick="showLineSize(this)" class = 'border_nochoose' title = "chooseSize"/><br/>
+                            <img src = '/resource/image/xx.png' width = '20px;' height = '20px;' class="img" onclick="clearContext('1')" class = 'border_nochoose' title = "xx"/><br/>
+                            <img src = '/resource/image/save.png' width = '20px;' height = '20px;' class="img" onclick="save()" class = 'border_nochoose' title = "save"/><br/>
+                            <a href="#" download="picture.png"  id="downloadImage_a">
+                                <img src = '/resource/image/download.png' width = '20px;' height = '20px;' class="img" class = 'border_nochoose' title = "download" onclick="downloadImage();"/>
+                            </a><br/>
+                        </div>
+
+                        <div style="float:left;width:30%">
+                            <canvas id="the-canvas" width="450" height="600"  style="z-index:1;"></canvas>
+                            <canvas id="canvas" width="450" height="600" style="z-index:2;">
+                                该浏览器不支持Canvas;
+                            </canvas>
+                            <canvas id="canvas_bak" width="450" height="600" style="z-index:5;" ></canvas>
+                        </div>
+                        <div id="color" class="color" >
+                            <input class="i1" type="button"/>
+                            <input class="i2" type="button"/>
+                            <input class="i3" type="button"/>
+                            <input class="i4" type="button"/>
+                            <input class="i5" type="button"/>
+                            <input class="i6" type="button"/>
+                            <input class="i7" type="button"/>
+                            <input class="i8" type="button"/>
+                        </div>
+                        <div id="line_size"  class = "border_nochoose" style="z-index:-1">
+                            <img src="/resource/image/line_size_1.png" width = '80px;' height = '12px;' onclick="chooseLineSize(1)"><br/>
+                            <img src="/resource/image/line_size_3.png" width = '80px;' height = '12px;' onclick="chooseLineSize(3)"><br/>
+                            <img src="/resource/image/line_size_5.png" width = '80px;' height = '12px;' onclick="chooseLineSize(5)"><br/>
+                            <img src="/resource/image/line_size_7.png" width = '80px;' height = '12px;' onclick="chooseLineSize(7)">
+                        </div>
+                    </div>
+                    <div style="position: absolute;bottom: 0;left: 35%;">
+                        <!--<button id="open-room" class="btn btn-info">Open Room</button>-->
+                        <button id="share-part-of-screen" class="btn btn-info" disabled>Share Part Of Screen</button>
+                    </div>
+                </div>
+                <div class="col-md-4" style="border: 1px solid;height: 700px;">
+                    <input type="text" id="input-text-chat" class="form-control" disabled placeholder="输入文字 Enter发送" style="position: absolute;bottom: 0;width: 90%;">
+                    <div class="chat-output"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/reliable-signaler/signaler.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdn.webrtc-experiment.com/RTCMultiConnection.js"></script>
+    <script src="https://cdn.webrtc-experiment.com/FileBufferReader.js"></script>
+    <script src="/function/js/share.js"></script>
+    <script src="/pdfShow/pdf.js"></script>
+    <script id="script">
+
+        var url = "pdfShow/testfile.pdf";
+        var pdfDoc = null,
+                pageNum = 1,
+                pageRendering = false,
+                pageNumPending = null,
+                scale = 0.8,
+                canvas = document.getElementById('the-canvas'),
+                ctx = canvas.getContext('2d');
+
+        function renderPage(num) {
+            pageRendering = true;
+            // Using promise to fetch the page
+            pdfDoc.getPage(num).then(function(page) {
+                var viewport = page.getViewport(scale);
+                canvas.height = 600;
+                canvas.width = 450;
+//                canvas.height = viewport.height;
+//                canvas.width = viewport.width;
+
+                // Render PDF page into canvas context
+                var renderContext = {
+                    canvasContext: ctx,
+                    viewport: viewport
+                };
+                var renderTask = page.render(renderContext);
+
+                // Wait for rendering to finish
+                renderTask.promise.then(function () {
+                    pageRendering = false;
+                    if (pageNumPending !== null) {
+                        // New page rendering is pending
+                        renderPage(pageNumPending);
+                        pageNumPending = null;
+                    }
+                });
+            });
+
+            document.getElementById('page_num').textContent = pageNum;
+        }
+
+
+        function queueRenderPage(num) {
+            if (pageRendering) {
+                pageNumPending = num;
+            } else {
+                renderPage(num);
+            }
+        }
+
+
+        function onPrevPage() {
+            if (pageNum <= 1) {
+                return;
+            }
+            pageNum--;
+            queueRenderPage(pageNum);
+        }
+        document.getElementById('prev').addEventListener('click', onPrevPage);
+
+
+        function onNextPage() {
+            if (pageNum >= pdfDoc.numPages) {
+                return;
+            }
+            pageNum++;
+            queueRenderPage(pageNum);
+        }
+        document.getElementById('next').addEventListener('click', onNextPage);
+
+
+
+        PDFJS.getDocument(url).then(function (pdfDoc_) {
+            pdfDoc = pdfDoc_;
+            document.getElementById('page_count').textContent = pdfDoc.numPages;
+
+            // Initial/first page rendering
+            renderPage(pageNum);
+        });
+    </script>
+</body>
+
+</html>
