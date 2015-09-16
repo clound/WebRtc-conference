@@ -7,7 +7,7 @@ module.exports = function ( app ) {
     //    res.render('index');
     //});
 
-    app.post('/sign up', function (req, res) {
+    app.post('/sign_up', function (req, res) {
         var User = global.dbHelper.getModel('user');
         var userInfo = {
             name : req.body.uname,

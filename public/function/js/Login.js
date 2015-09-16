@@ -37,7 +37,7 @@ myApp.directive('myDialog', function() {
                 var data = { "uname": username, "upwd":password};
                 if(username !== '' && password !== ''){
                     $.ajax({
-                        url:'/sign in',
+                        url:'/login',
                         type:'POST',
                         data:data,
                         success:function(data,status){
@@ -53,6 +53,7 @@ myApp.directive('myDialog', function() {
                             }
                         }
                     });
+
                     //$http({
                     //        url:'/login',
                     //        method:'POST',

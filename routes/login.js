@@ -1,9 +1,9 @@
 module.exports = function ( app ) {
-    app.get('/sign in',function(req,res){
+    app.get('/login',function(req,res){
         res.render('index');
     });
 
-    app.post('/sign in', function (req, res) {
+    app.post('/login', function (req, res) {
         var User = global.dbHelper.getModel('user')
             uname = req.body.uname;
         User.findOne({name: uname}, "username, password", function (error, doc) {
