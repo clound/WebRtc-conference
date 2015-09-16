@@ -19,7 +19,6 @@ app.use(session({
         maxAge:1000*60*30
     }
 }));
-console.log(__dirname);
 // 设定views变量，意为视图存放的目录
 app.set('views', path.join(__dirname, 'Views'));
 
@@ -39,7 +38,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(function(req, res, next){
     res.locals.user = req.session.user;
     var err = req.session.error;
-    console.log(err)
     res.locals.message = '';
     if (err)
         res.locals.message = '<div class="alert alert-danger" style="margin-bottom: 20px;color:red;">' + err + '</div>';

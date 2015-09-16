@@ -33,11 +33,11 @@ myApp.directive('myDialog', function($http) {
                             method:'POST',
                             data:data,
                         }).success(function(data, status, headers, config) {
-                            if(status === '200'){
+                            if(status == '200'){
                                 location.href='home';
                             }
                         }).error(function (data, status, headers, config) {
-                            if(status === "404"){
+                            if(status == "404"){
                                 scope.visible = true;
                                 scope.info_show = data;
                                 //location.href='login';
@@ -46,33 +46,33 @@ myApp.directive('myDialog', function($http) {
                     }
                 }
             },
-                scope.UserLogin = function(){
-                    var arr = element.find('.form-group');
-                    var title = element.find('.modal-title');
-                    if(arr.length !== 4) {
-                        title[0].textContent = "登录";
-                        $(arr[2]).remove();
-                    }
-                    var username = $('#Username').val().replace(/^\s+|\s+$/g, ''),password = $('#Password').val().replace(/^\s+|\s+$/g, '');
-                    var data = { "uname": username, "upwd":password};
-                    if(username !== '' && password !== ''){
-                        $http({
-                            url:'/login',
-                            method:'POST',
-                            data:data,
-                        }).success(function(data, status, headers, config) {
-                            if(status === '200'){
-                                location.href='home';
-                            }
-                        }).error(function (data, status, headers, config) {
-                            if(status === "404"){
-                                scope.visible = true;
-                                scope.info_show = data;
-                                //location.href='login';
-                            }
-                        });
-                    }
+            scope.UserLogin = function(){
+                var arr = element.find('.form-group');
+                var title = element.find('.modal-title');
+                if(arr.length !== 4) {
+                    title[0].textContent = "登录";
+                    $(arr[2]).remove();
                 }
+                var username = $('#Username').val().replace(/^\s+|\s+$/g, ''),password = $('#Password').val().replace(/^\s+|\s+$/g, '');
+                var data = { "uname": username, "upwd":password};
+                if(username !== '' && password !== ''){
+                    $http({
+                        url:'/login',
+                        method:'POST',
+                        data:data,
+                    }).success(function(data, status, headers, config) {
+                        if(status == '200'){
+                            location.href='home';
+                        }
+                    }).error(function (data, status, headers, config) {
+                        if(status == "404"){
+                            scope.visible = true;
+                            scope.info_show = data;
+                            //location.href='login';
+                        }
+                    });
+                }
+            }
         },
         controller: function () {}
     };

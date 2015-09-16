@@ -2,12 +2,12 @@
  * Created by jky on 15-9-16.
  */
 
-module.exports = function ( app ) {
+module.exports = function (app){
     //app.get('/sign up',function(req,res){
     //    res.render('index');
     //});
 
-    app.post('/sign up', function (req, res) {
+    app.post('/sign_up', function (req, res) {
         var User = global.dbHelper.getModel('user');
         var userInfo = {
             name : req.body.uname,
