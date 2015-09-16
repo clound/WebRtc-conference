@@ -2,7 +2,7 @@
  * Created by lenovo on 15-9-10.
  */
 var myApp = angular.module('myApp',[]);
-myApp.directive('myDialog', function() {
+myApp.directive('myDialog', function($http) {
     return {
         restrict: 'E',
         replace: true,
@@ -25,43 +25,54 @@ myApp.directive('myDialog', function() {
                 var username = $('#Username').val().replace(/^\s+|\s+$/g, '');
                 var password = $('#Password').val().replace(/^\s+|\s+$/g, '');
                 var confirmpwd = $("#ConfirmPassword").val().replace(/^\s+|\s+$/g, '');
-            },
-            scope.UserLogin = function(){
-                var arr = element.find('.form-group');
-                var title = element.find('.modal-title');
-                if(arr.length !== 4) {
-                    title[0].textContent = "登录";
-                    $(arr[2]).remove();
-                }
-                var username = $('#Username').val().replace(/^\s+|\s+$/g, ''),password = $('#Password').val().replace(/^\s+|\s+$/g, '');
-                var data = { "uname": username, "upwd":password};
-                if(username !== '' && password !== ''){
-                    $.ajax({
-                        url:'/sign in',
-                        type:'POST',
-                        data:data,
-                        success:function(data,status){
-                            if(status == 'success'){
+                var data = { "uname":username, "upwd":password,"conpwd":confirmpwd};
+                if(username !== '' && password !== ''&& confirmpwd !== ''){
+                    if(password === confirmpwd){
+                        $http({
+                            url:'/sign_up',
+                            method:'POST',
+                            data:data,
+                        }).success(function(data, status, headers, config) {
+                            if(status === '200'){
                                 location.href='home';
                             }
-                        },
-                        error:function(xhr,data,status){
-                            //alert(xhr.responseText+data+status)
-                            if(data == "error"){
-                                location.href='login';
-
+                        }).error(function (data, status, headers, config) {
+                            if(status === "404"){
+                                scope.visible = true;
+                                scope.info_show = data;
+                                //location.href='login';
                             }
-                        }
-                    });
-                    //$http({
-                    //        url:'/login',
-                    //        method:'POST',
-                    //        data:data,
-                    //    }).success(function(data, status, headers, config) {
-                    //        alert(status)
-                    //});
+                        });
+                    }
                 }
-            }
+            },
+                scope.UserLogin = function(){
+                    var arr = element.find('.form-group');
+                    var title = element.find('.modal-title');
+                    if(arr.length !== 4) {
+                        title[0].textContent = "登录";
+                        $(arr[2]).remove();
+                    }
+                    var username = $('#Username').val().replace(/^\s+|\s+$/g, ''),password = $('#Password').val().replace(/^\s+|\s+$/g, '');
+                    var data = { "uname": username, "upwd":password};
+                    if(username !== '' && password !== ''){
+                        $http({
+                            url:'/login',
+                            method:'POST',
+                            data:data,
+                        }).success(function(data, status, headers, config) {
+                            if(status === '200'){
+                                location.href='home';
+                            }
+                        }).error(function (data, status, headers, config) {
+                            if(status === "404"){
+                                scope.visible = true;
+                                scope.info_show = data;
+                                //location.href='login';
+                            }
+                        });
+                    }
+                }
         },
         controller: function () {}
     };
